@@ -1,0 +1,126 @@
+{
+    "name": "cipherscan-vscode",
+    "displayName": "CipherScan",
+    "description": "Scan your Visual Studio Code workspace for exposed secrets and improve code security.",
+    "version": "1.0.0",
+    "type": "commonjs",
+    "icon": "src/assets/img/cipherscan-logo128.png",
+    "author": "Arpit Gupta",
+    "publisher": "arpitgupta-it",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/cipherscan/cipherscan-vscode.git"
+    },
+    "bugs": {
+        "url": "https://github.com/cipherscan/cipherscan-vscode/issues"
+    },
+    "homepage": "https://github.com/cipherscan/cipherscan-vscode#readme",
+    "keywords": [
+        "cipherscan",
+        "vscode-extension",
+        "security",
+        "secret-scanning",
+        "encryption"
+    ],
+    "engines": {
+        "vscode": "^1.77.0"
+    },
+    "main": "./out/main.js",
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "contributes": {
+        "commands": [
+            {
+                "command": "cipherscan.startScan",
+                "title": "Scan Workspace or Folder for Exposed Secrets",
+                "category": "CipherScan"
+            }
+        ],
+        "configuration": {
+            "properties": {
+                "cipherscan.customPatterns": {
+                    "type": "array",
+                    "default": [],
+                    "description": "Custom patterns to detect secrets in your code.",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "The name of the pattern (e.g., 'GitHub Token')."
+                            },
+                            "regex": {
+                                "type": "string",
+                                "description": "The regular expression for matching the secret."
+                            },
+                            "severity": {
+                                "type": "string",
+                                "enum": [
+                                    "Low",
+                                    "Medium",
+                                    "High"
+                                ],
+                                "default": "Medium",
+                                "description": "The severity level of the detected secret."
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "regex"
+                        ]
+                    }
+                },
+                "cipherscan.excludeFiles": {
+                    "type": "array",
+                    "default": [
+                        "**/node_modules",
+                        "**/dist",
+                        "**/*.min.js",
+                        "**/package-lock.json",
+                        ".git",
+                        ".vscode",
+                        ".cipherscan"
+                    ],
+                    "description": "Files or folders to exclude from secret scanning.",
+                    "items": {
+                        "type": "string",
+                        "description": "Pattern for excluding files or directories."
+                    }
+                },
+                "cipherscan.addToGitIgnore": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Automatically add the .cipherscan folder to .gitignore to prevent Git tracking."
+                }
+            }
+        }
+    },
+    "scripts": {
+        "compile": "tsc -p ./",
+        "lint": "eslint src/**/*.ts",
+        "test": "jest --coverage"
+    },
+    "jest": {
+        "preset": "ts-jest",
+        "testEnvironment": "node",
+        "moduleNameMapper": {
+            "vscode": "<rootDir>/__mocks__/vscode.ts"
+        }
+    },
+    "devDependencies": {
+        "@types/fs-extra": "^11.0.4",
+        "@types/jest": "^29.5.14",
+        "@types/node": "^22.10.1",
+        "@types/vscode": "1.77",
+        "@vscode/test-electron": "^2.4.1",
+        "@vscode/vsce": "^3.2.1",
+        "jest": "^29.7.0",
+        "ts-jest": "^29.2.5",
+        "typescript": "^5.7.2"
+    },
+    "license": "Apache-2.0",
+    "dependencies": {
+        "fs-extra": "^11.2.0"
+    }
+}
