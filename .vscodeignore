@@ -1,0 +1,6 @@
+**/*.test.*
+**/node_modules/**
+**/.git/**
+**/.vscode/**
+**/tsconfig.json
+**/package-lock.json
